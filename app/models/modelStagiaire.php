@@ -2,6 +2,7 @@
 
 
 class Stagiaire {
+    private $id;
     private $nom;
     private $prenom;
     private $age;
@@ -68,13 +69,22 @@ class Stagiaire {
         return new PDO("mysql:host=localhost;dbname=ofppt2;","root","");
     }
 
+    public function find($id){
+        
+    }
+
     public function create(){
         $request = $this->database()->prepare('INSERT INTO stagiaire VALUE (null,?,?,?,?,?)');
         $request->execute([$this->nom,$this->prenom,$this->login,$this->password,$this->age]);
-        var_dump($this->database());
     }
 
-    public function edit(){}
+    public function edit($id){
+        $request = $this->database()->prepare('UPDATE stagiaire SET nom = ? , prenom = ?, age = ?, login = ?, password = ? WHERE id = ?');
+        $request->execute([$this->nom,$this->prenom,$this->age,$this->login,$this->password,$id]);
+    }
 
-    public function destroy(){}
+    public function destroy($id){
+        $request = $this->database()->prepare('DELETE FROM stagiaire WHERE id = ?');
+        $request->execute([$id]);
+    }
 }
